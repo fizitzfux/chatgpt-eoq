@@ -4,7 +4,7 @@ import io
 
 # Function to read Minecraft server log for chat messages
 def read_minecraft_log():
-    with io.open('/home/sven/openai-eoq/logs/latest.log','r', buffering=1) as log_file:
+    with io.open('./logs/latest.log','r', buffering=1) as log_file:
         log_file.seek(0, 2)  # Move cursor to end of file
         while True:
             new_line = log_file.readline()

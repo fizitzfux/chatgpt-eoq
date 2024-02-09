@@ -161,6 +161,10 @@ cython_debug/
 
 
 /logs
+/backups
+/minecraft
+/downloads
+/resourcepacks
 command_history.txt
 options.txt
 realms_persistence.json
@@ -169,4 +173,4 @@ usercache.json
 !saves/1
 saves/1/*
 !saves/1/datapacks
-!saves/1/level.dat
+# !saves/1/level.dat
