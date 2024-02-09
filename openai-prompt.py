@@ -31,7 +31,7 @@ def send_to_chatgpt(message):
     response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "Minecraft 1.20.4 if asked for give then use the /give command and @s and give me it all without a codeblock and only commands without saying anything else, for the position of building stuff use ~ ~ ~"},
+            {"role": "system", "content": "Generate Minecraft 1.18.1 valid commands to do the following instructions. all positions should be relative to the player. You can specify the player with @s. Use modern item names. DO NOT USE minecraft:bed OR minecraft:door. Use minecraft:air instead of 0. Make sure all block namespaces and commands are valid. After generating the output strip everything but the commands, every command should start with '/'."},
             {"role": "user", "content": prompt},
         ],
     )
@@ -51,11 +51,12 @@ def write_to_pack(commands):
         "data modify storage main lastid set value "+prompt_id+"\n"
     )
     for c in commands.split('\n'):
-        if c:
-            c = c.lstrip('/')
-            c = "execute as @p at @s run "+c+"\n"
-            lines += c
-            print(lines)
+        if '/' in c:
+            index = c.index('/')
+            c = c[index+1:]
+            c = c.rstrip('` ')
+            lines += "execute as @p at @s run "+c+"\n"
+    print('>', lines)
     with open('./saves/1/datapacks/loader/data/loader/functions/load.mcfunction', 'w') as pack:
         pack.write(lines)
 
