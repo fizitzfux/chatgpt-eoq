@@ -13,8 +13,8 @@ def read_minecraft_log():
                 if '[Server thread/INFO]' in new_line and '<' in new_line:
                     # Extract chat message from log line
                     chat_message = new_line.split('> ')[-1].strip()
-                    send_to_chatgpt(chat_message)
                     print(chat_message)
+                    send_to_chatgpt(chat_message)
             else:
                 time.sleep(1)  # Sleep for 1 second before checking for new lines
 
