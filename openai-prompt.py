@@ -1,6 +1,7 @@
 from openai import OpenAI
 import time
 import io
+from random import randint
 
 # Function to read Minecraft server log for chat messages
 def read_minecraft_log():
@@ -41,6 +42,22 @@ def send_to_chatgpt(message):
 
     # Check credit status
     print(openai.models.with_raw_response.list().headers["OpenAiProxy"])
+
+
+def write_to_pack(commands):
+    prompt_id = str(randint(0,999))
+    lines = (
+        "execute if data storage main {lastid:"+prompt_id+"} run return 0\n"
+        "data modify storage main lastid set value "+prompt_id+"\n"
+    )
+    for c in commands.split('\n'):
+        if c:
+            c = c.lstrip('/')
+            c = "execute as @p at @s run "+c+"\n"
+            lines += c
+    with open('./saves/1/datapacks/loader/data/loader/functions/load.mcfunction', 'w') as pack:
+        pack.write(lines)
+
 
 # Main function
 def main():
