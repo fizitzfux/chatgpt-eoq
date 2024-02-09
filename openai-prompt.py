@@ -31,21 +31,21 @@ def send_to_chatgpt(message):
     response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "Minecraft 1.20.4 if asked for give then use the /give command and @p"},
+            {"role": "system", "content": "Minecraft 1.20.4 if asked for give then use the /give command and @s and give me it all without a codeblock and only commands without saying anything else, for the position of building stuff use ~ ~ ~"},
             {"role": "user", "content": prompt},
         ],
     )
 
     output = response.choices[0].message.content
-
     print(output)
+    write_to_pack(output)
 
     # Check credit status
     print(openai.models.with_raw_response.list().headers["OpenAiProxy"])
 
 
 def write_to_pack(commands):
-    prompt_id = str(randint(0,999))
+    prompt_id = str(randint(0, 9999999))
     lines = (
         "execute if data storage main {lastid:"+prompt_id+"} run return 0\n"
         "data modify storage main lastid set value "+prompt_id+"\n"
@@ -55,6 +55,7 @@ def write_to_pack(commands):
             c = c.lstrip('/')
             c = "execute as @p at @s run "+c+"\n"
             lines += c
+            print(lines)
     with open('./saves/1/datapacks/loader/data/loader/functions/load.mcfunction', 'w') as pack:
         pack.write(lines)
 
